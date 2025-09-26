@@ -3,32 +3,47 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Registro de Asistencias | Diseño Pulido</title>
+<title>Registro de Asistencias | Cámaras a la Derecha</title>
 <style>
-/* Estilos Globales y Contenedor */
+/* Estilos Globales y Contenedor Principal */
 body { 
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fuente más moderna */
-    background: linear-gradient(135deg, #f5f7fa 0%, #e0e6ed 100%); /* Fondo degradado suave */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e0e6ed 100%);
     margin: 0; padding: 1rem; 
     display: flex; justify-content: center; align-items: center; 
     min-height: 100vh; 
 }
-.container { 
-    background: #fff; 
-    padding: 2rem; 
+
+/* El nuevo contenedor flex para las dos columnas en pantallas grandes */
+.main-layout-container {
+    background: #fff; /* Fondo para el contenedor principal de ambas secciones */
     border-radius: 16px; 
     box-shadow: 0 10px 30px rgba(0,0,0,0.15); 
     width: 100%; 
-    max-width: 400px; /* Ancho optimizado */
-    text-align: center; 
-    border-top: 6px solid #007bff; /* Tira de color primario */
+    max-width: 380px; /* Ancho para móvil por defecto */
+    border-top: 6px solid #007bff;
+    display: flex;
+    flex-direction: column; /* Por defecto, los elementos irán en columna (stack) */
+    overflow: hidden; /* Asegura que los bordes redondeados se mantengan */
+}
+
+/* Estilos para las secciones internas (formulario y cámara) */
+.form-section, .camera-section {
+    padding: 1.5rem; /* Padding uniforme para ambas secciones en móvil */
+    flex: 1; /* Permite que ocupen el espacio disponible */
+}
+
+/* Sección de la cámara en móvil */
+.camera-section {
+    order: -1; /* Muestra la cámara primero en móvil */
+    padding-bottom: 0; /* Menos espacio al fondo del video */
 }
 
 /* Encabezado y Estado */
 h1 { 
     margin-bottom: 0.5rem; 
     font-size: 1.8rem; 
-    color: #2c3e50; /* Azul oscuro para el texto */
+    color: #2c3e50; 
     font-weight: 600; 
 }
 #status { 
@@ -36,7 +51,7 @@ h1 {
     margin-bottom: 1.5rem; 
     font-size: 1.1rem; 
     font-weight: bold; 
-    color: #7f8c8d; /* Gris suave por defecto */
+    color: #7f8c8d; 
     transition: color 0.3s;
 }
 
@@ -47,13 +62,13 @@ input[type="text"] {
     margin-bottom: 1.5rem; 
     font-size: 1.1rem; 
     border-radius: 8px; 
-    border: 1px solid #bdc3c7; /* Borde más sutil */
+    border: 1px solid #bdc3c7; 
     box-sizing: border-box; 
     transition: border-color 0.3s, box-shadow 0.3s;
 }
 input[type="text"]:focus {
     border-color: #007bff; 
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Sombra de enfoque */
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); 
     outline: none;
 }
 
@@ -62,8 +77,8 @@ input[type="text"]:focus {
     width: 100%; 
     max-height: 250px; 
     border-radius: 12px; 
-    background: #2c3e50; /* Color oscuro profesional */
-    margin-bottom: 1.5rem; 
+    background: #2c3e50; 
+    margin-bottom: 1rem; /* Menos margen si está solo */
     object-fit: cover; 
     border: 1px solid #f1f1f1;
 }
@@ -79,8 +94,8 @@ input[type="text"]:focus {
 button {
     width: 100%;
     padding: 14px;
-    margin-bottom: 10px; /* Espacio para el botón de foto */
-    border-radius: 50px; /* Bordes totalmente redondeados */
+    margin-bottom: 10px; 
+    border-radius: 50px; 
     border: none;
     font-size: 1rem;
     font-weight: bold;
@@ -91,9 +106,9 @@ button {
 
 /* Botón de Tomar Foto (Acción Intermedia) */
 #takePhotoButton {
-    background: #3498db; /* Azul intermedio */
+    background: #3498db; 
     margin-bottom: 15px; 
-    border-radius: 10px; /* Menos redondeado para distinguirlo */
+    border-radius: 10px; 
     font-size: 1.1rem;
 }
 #takePhotoButton:hover:not(:disabled) { 
@@ -109,14 +124,14 @@ button {
     font-weight: 700;
 }
 #entradaButton { 
-    background: #2ecc71; /* Verde brillante para Entrada */
+    background: #2ecc71; 
 }
 #entradaButton:hover:not(:disabled) { 
     background: #27ae60; 
     transform: translateY(-2px); 
 }
 #salidaButton { 
-    background: #e74c3c; /* Rojo/coral para Salida */
+    background: #e74c3c; 
 }
 #salidaButton:hover:not(:disabled) { 
     background: #c0392b; 
@@ -125,9 +140,9 @@ button {
 
 /* Estilos para Botones Deshabilitados */
 button:disabled { 
-    background: #ecf0f1 !important; /* Gris claro */
+    background: #ecf0f1 !important; 
     cursor: not-allowed; 
-    color: #bdc3c7 !important; /* Gris muy claro */
+    color: #bdc3c7 !important; 
     transform: none !important;
 }
 
@@ -143,30 +158,94 @@ button:disabled {
 .instructions strong {
     color: #7f8c8d;
 }
+
+/* --- Media Query para Tabletas Horizontales y Escritorio --- */
+/* Aplicar diseño de dos columnas a partir de 768px */
+@media (min-width: 768px) {
+    .main-layout-container {
+        max-width: 900px; /* Ancho máximo para el contenedor de dos columnas */
+        flex-direction: row; /* Elementos en fila */
+        border-top: none; /* Eliminar la tira superior cuando es en fila */
+        border-left: 6px solid #007bff; /* Tira de color a la izquierda */
+        text-align: left; /* Alinear texto a la izquierda en las columnas */
+    }
+
+    .form-section {
+        flex: 1; /* Toma la mitad del espacio */
+        order: 0; /* Formulario primero (izquierda) */
+        padding: 2.5rem;
+        padding-right: 1.5rem; /* Menos padding entre las columnas */
+    }
+
+    .camera-section {
+        flex: 1; /* Toma la otra mitad del espacio */
+        order: 1; /* Cámara segunda (derecha) */
+        padding: 2.5rem;
+        padding-left: 1.5rem; /* Menos padding entre las columnas */
+        border-left: 1px solid #eee; /* Separador visual sutil */
+        display: flex; /* Asegura que el video se centre verticalmente si es más pequeño */
+        flex-direction: column;
+        justify-content: center; /* Centra el video verticalmente */
+        align-items: center; /* Centra el video horizontalmente */
+    }
+
+    h1 { 
+        font-size: 2.2rem; /* Títulos más grandes */
+        text-align: left; /* Alinear el título a la izquierda */
+    }
+    #status {
+        text-align: left; /* Alinear el estado a la izquierda */
+        font-size: 1.2rem;
+    }
+    input[type="text"] {
+        padding: 15px; 
+        font-size: 1.2rem;
+    }
+    .action-buttons button {
+        padding: 18px 10px; 
+        font-size: 1.3rem;
+    }
+    #takePhotoButton {
+        padding: 16px;
+    }
+    .instructions {
+        text-align: left; /* Alinear instrucciones a la izquierda */
+    }
+    #videoElement {
+        max-width: 100%; /* Asegura que el video no se desborde */
+        max-height: 350px; /* Mayor altura para tabletas */
+        margin-bottom: 0; /* No hay margen inferior si es la única en la columna */
+    }
+}
 </style>
 </head>
 <body>
-<div class="container">
-<h1>📸 Registro de Asistencias</h1>
-<p id="status" class="status-default">⚠️ Ingresa tu ID para comenzar.</p>
-<input type="text" id="employeeId" placeholder="ID de empleado (solo números)" pattern="\d*" required>
-<video id="videoElement" autoplay playsinline></video>
-<canvas id="canvasElement" style="display:none;"></canvas>
+<div class="main-layout-container">
+    <div class="form-section">
+        <h1>📸 Registro de Asistencias</h1>
+        <p id="status" class="status-default">⚠️ Ingresa tu ID para comenzar.</p>
+        <input type="text" id="employeeId" placeholder="ID de empleado (solo números)" pattern="\d*" required>
+        
+        <button id="takePhotoButton" disabled>1. Tomar Foto / Capturar Rostro</button>
 
-<button id="takePhotoButton" disabled>1. Tomar Foto / Capturar Rostro</button>
+        <div class="action-buttons">
+            <button id="entradaButton" disabled>2. Entrada</button>
+            <button id="salidaButton" disabled>2. Salida</button>
+        </div>
 
-<div class="action-buttons">
-    <button id="entradaButton" disabled>2. Entrada</button>
-    <button id="salidaButton" disabled>2. Salida</button>
-</div>
+        <p class="instructions">
+            Sigue el flujo: **ID** &rarr; **Foto** &rarr; **Acción**.
+        </p>
+    </div>
 
-<p class="instructions">
-    Sigue el flujo: **ID** &rarr; **Foto** &rarr; **Acción**.
-</p>
+    <div class="camera-section">
+        <video id="videoElement" autoplay playsinline></video>
+        <canvas id="canvasElement" style="display:none;"></canvas>
+    </div>
 </div>
 
 <script>
-// El código JavaScript permanece SIN CAMBIOS respecto a la versión anterior para no tocar la lógica.
+// El código JavaScript (Lógica) se mantiene sin cambios.
 const appsScriptURL = 'https://script.google.com/macros/s/AKfycbzBQkj0norhFjxOuK7r8PpN_FVduNBp98wD3xpszZ3v5DwC41MNtsAqwaKAKBb4HhkQ/exec'; 
 
 const video = document.getElementById('videoElement');
@@ -179,15 +258,11 @@ const statusText = document.getElementById('status');
 
 let photoTaken = false;
 
-// Función para actualizar el estado con estilo (utiliza las nuevas clases CSS si las añades al JS)
 function updateStatus(message, className) {
     statusText.textContent = message;
-    // Si mantuviste las clases CSS de estado en el JS, esta línea las aplicará.
-    // Si usaste el JS original, el color de fondo y fuente general ya es mejor.
     statusText.className = className || 'status-default'; 
 }
 
-// Validar ID numérico
 employeeIdInput.addEventListener('input', () => {
     const idVal = employeeIdInput.value.trim();
     if(idVal !== '' && /^\d+$/.test(idVal)) {
@@ -201,12 +276,10 @@ employeeIdInput.addEventListener('input', () => {
     }
 });
 
-// Acceder a cámara
 navigator.mediaDevices.getUserMedia({ video: { width: 200, height: 140 } })
 .then(stream => { video.srcObject = stream; })
 .catch(err => { console.error(err); updateStatus('🔴 No se pudo acceder a la cámara.', 'status-error'); });
 
-// Tomar miniatura
 takePhotoButton.addEventListener('click', () => {
     const context = canvas.getContext('2d');
     canvas.width = 160; 
@@ -218,7 +291,6 @@ takePhotoButton.addEventListener('click', () => {
     updateStatus('📸 Foto tomada. Presiona "Entrada" o "Salida".', 'status-photo');
 });
 
-// Enviar datos
 function sendToServer(tipo) {
     if(!photoTaken) { alert('Toma la foto primero.'); return; }
     const employeeId = employeeIdInput.value.trim();
@@ -269,8 +341,6 @@ function sendToServer(tipo) {
 entradaButton.addEventListener('click', () => sendToServer('entrada'));
 salidaButton.addEventListener('click', () => sendToServer('salida'));
 
-// **Añadir las clases de estado faltantes al CSS para que el JS funcione correctamente**
-// Aunque pediste solo CSS, estas clases son necesarias para que el mensaje de estado tenga color.
 const dynamicStyles = document.createElement('style');
 dynamicStyles.innerHTML = `
     .status-default { color: #7f8c8d !important; }
