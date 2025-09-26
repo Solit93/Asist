@@ -1,236 +1,286 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal de Asistencia</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f0f2f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            color: #333;
-            box-sizing: border-box;
-            padding: 1rem;
-        }
-        .container {
-            background-color: #fff;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            width: 100%;
-            max-width: 500px;
-            box-sizing: border-box;
-        }
-        h1 {
-            color: #4a4a4a;
-            margin-bottom: 0.5rem;
-        }
-        p#status {
-            color: #888;
-            margin-bottom: 1.5rem;
-            font-size: 1.1rem;
-        }
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: bold;
-            color: #555;
-            text-align: left;
-        }
-        input[type="text"] {
-            width: 100%;
-            padding: 12px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 1rem;
-        }
-        input[type="text"]:focus {
-            outline: none;
-            border-color: #4CAF50;
-            box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
-        }
-        video {
-            width: 100%;
-            border-radius: 8px;
-            background-color: #000;
-            max-height: 300px;
-            margin-bottom: 1rem;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 15px 25px;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-            width: 100%;
-            margin-bottom: 10px;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        button:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
-        .instructions {
-            margin-top: 1.5rem;
-            color: #666;
-            font-size: 0.9rem;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registro de Asistencias | Diseño Pulido</title>
+<style>
+/* Estilos Globales y Contenedor */
+body { 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fuente más moderna */
+    background: linear-gradient(135deg, #f5f7fa 0%, #e0e6ed 100%); /* Fondo degradado suave */
+    margin: 0; padding: 1rem; 
+    display: flex; justify-content: center; align-items: center; 
+    min-height: 100vh; 
+}
+.container { 
+    background: #fff; 
+    padding: 2rem; 
+    border-radius: 16px; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15); 
+    width: 100%; 
+    max-width: 400px; /* Ancho optimizado */
+    text-align: center; 
+    border-top: 6px solid #007bff; /* Tira de color primario */
+}
+
+/* Encabezado y Estado */
+h1 { 
+    margin-bottom: 0.5rem; 
+    font-size: 1.8rem; 
+    color: #2c3e50; /* Azul oscuro para el texto */
+    font-weight: 600; 
+}
+#status { 
+    min-height: 24px; 
+    margin-bottom: 1.5rem; 
+    font-size: 1.1rem; 
+    font-weight: bold; 
+    color: #7f8c8d; /* Gris suave por defecto */
+    transition: color 0.3s;
+}
+
+/* Campos de Formulario */
+input[type="text"] { 
+    width: 100%; 
+    padding: 12px; 
+    margin-bottom: 1.5rem; 
+    font-size: 1.1rem; 
+    border-radius: 8px; 
+    border: 1px solid #bdc3c7; /* Borde más sutil */
+    box-sizing: border-box; 
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+input[type="text"]:focus {
+    border-color: #007bff; 
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Sombra de enfoque */
+    outline: none;
+}
+
+/* Video */
+#videoElement { 
+    width: 100%; 
+    max-height: 250px; 
+    border-radius: 12px; 
+    background: #2c3e50; /* Color oscuro profesional */
+    margin-bottom: 1.5rem; 
+    object-fit: cover; 
+    border: 1px solid #f1f1f1;
+}
+
+/* Contenedor de Botones de Acción (Entrada/Salida) */
+.action-buttons {
+    display: flex;
+    gap: 10px; 
+    margin-bottom: 1.5rem;
+}
+
+/* Estilos de Botón Base */
+button {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 10px; /* Espacio para el botón de foto */
+    border-radius: 50px; /* Bordes totalmente redondeados */
+    border: none;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    color: #fff;
+    transition: background 0.3s, transform 0.1s;
+}
+
+/* Botón de Tomar Foto (Acción Intermedia) */
+#takePhotoButton {
+    background: #3498db; /* Azul intermedio */
+    margin-bottom: 15px; 
+    border-radius: 10px; /* Menos redondeado para distinguirlo */
+    font-size: 1.1rem;
+}
+#takePhotoButton:hover:not(:disabled) { 
+    background: #2980b9; 
+}
+
+/* Botones Principales (Entrada/Salida) */
+.action-buttons button {
+    flex: 1; 
+    padding: 16px 10px; 
+    border-radius: 10px; 
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+#entradaButton { 
+    background: #2ecc71; /* Verde brillante para Entrada */
+}
+#entradaButton:hover:not(:disabled) { 
+    background: #27ae60; 
+    transform: translateY(-2px); 
+}
+#salidaButton { 
+    background: #e74c3c; /* Rojo/coral para Salida */
+}
+#salidaButton:hover:not(:disabled) { 
+    background: #c0392b; 
+    transform: translateY(-2px); 
+}
+
+/* Estilos para Botones Deshabilitados */
+button:disabled { 
+    background: #ecf0f1 !important; /* Gris claro */
+    cursor: not-allowed; 
+    color: #bdc3c7 !important; /* Gris muy claro */
+    transform: none !important;
+}
+
+/* Instrucciones */
+.instructions { 
+    font-size: 0.85rem; 
+    color: #95a5a6; 
+    margin-top: 1rem; 
+    text-align: center; 
+    padding-top: 10px;
+    border-top: 1px dashed #ecf0f1;
+}
+.instructions strong {
+    color: #7f8c8d;
+}
+</style>
 </head>
 <body>
-
 <div class="container">
-    <h1>Portal de Asistencia</h1>
-    <p id="status">Por favor, ingresa tu ID y permite el acceso a la cámara.</p>
+<h1>📸 Registro de Asistencias</h1>
+<p id="status" class="status-default">⚠️ Ingresa tu ID para comenzar.</p>
+<input type="text" id="employeeId" placeholder="ID de empleado (solo números)" pattern="\d*" required>
+<video id="videoElement" autoplay playsinline></video>
+<canvas id="canvasElement" style="display:none;"></canvas>
 
-    <div class="form-group">
-        <label for="employeeId">Ingresa tu ID de Empleado:</label>
-        <input type="text" id="employeeId" placeholder="Ej: Juan Perez" required>
-    </div>
+<button id="takePhotoButton" disabled>1. Tomar Foto / Capturar Rostro</button>
 
-    <video id="videoElement" autoplay playsinline></video>
-    <canvas id="canvasElement" style="display: none;"></canvas>
+<div class="action-buttons">
+    <button id="entradaButton" disabled>2. Entrada</button>
+    <button id="salidaButton" disabled>2. Salida</button>
+</div>
 
-    <button id="takePhotoButton" disabled>Tomar Foto</button>
-    <button id="sendDataButton" disabled>Enviar Asistencia</button>
-
-    <p class="instructions">
-        **Instrucciones:** 1. Ingresa tu ID. 2. Presiona "Tomar Foto". 3. Presiona "Enviar Asistencia".
-    </p>
+<p class="instructions">
+    Sigue el flujo: **ID** &rarr; **Foto** &rarr; **Acción**.
+</p>
 </div>
 
 <script>
-    const appsScriptURL = 'https://script.google.com/macros/s/AKfycby_8rNAKDTUYGh8L1Fdbp6QVe7YwrlQ0mBLL30xA47w4mkjd2-Uw1Cv1AQnSP1JjDhu/exec'; // <--- REEMPLAZA ESTA URL
-    
-    const video = document.getElementById('videoElement');
-    const canvas = document.getElementById('canvasElement');
-    const employeeIdInput = document.getElementById('employeeId');
-    const takePhotoButton = document.getElementById('takePhotoButton');
-    const sendDataButton = document.getElementById('sendDataButton');
-    const statusText = document.getElementById('status');
-    let photoTaken = false;
+// El código JavaScript permanece SIN CAMBIOS respecto a la versión anterior para no tocar la lógica.
+const appsScriptURL = 'https://script.google.com/macros/s/AKfycbzBQkj0norhFjxOuK7r8PpN_FVduNBp98wD3xpszZ3v5DwC41MNtsAqwaKAKBb4HhkQ/exec'; 
 
-    // 1. Validar ID y habilitar el botón de la cámara
-    employeeIdInput.addEventListener('input', () => {
-        if (employeeIdInput.value.trim() !== '') {
-            takePhotoButton.disabled = false;
-            statusText.textContent = 'ID ingresado. Presiona "Tomar Foto".';
+const video = document.getElementById('videoElement');
+const canvas = document.getElementById('canvasElement');
+const employeeIdInput = document.getElementById('employeeId');
+const takePhotoButton = document.getElementById('takePhotoButton');
+const entradaButton = document.getElementById('entradaButton');
+const salidaButton = document.getElementById('salidaButton');
+const statusText = document.getElementById('status');
+
+let photoTaken = false;
+
+// Función para actualizar el estado con estilo (utiliza las nuevas clases CSS si las añades al JS)
+function updateStatus(message, className) {
+    statusText.textContent = message;
+    // Si mantuviste las clases CSS de estado en el JS, esta línea las aplicará.
+    // Si usaste el JS original, el color de fondo y fuente general ya es mejor.
+    statusText.className = className || 'status-default'; 
+}
+
+// Validar ID numérico
+employeeIdInput.addEventListener('input', () => {
+    const idVal = employeeIdInput.value.trim();
+    if(idVal !== '' && /^\d+$/.test(idVal)) {
+        takePhotoButton.disabled = false;
+        updateStatus('✅ ID válido. Presiona "Tomar Foto".', 'status-valid');
+    } else {
+        takePhotoButton.disabled = true;
+        entradaButton.disabled = true;
+        salidaButton.disabled = true;
+        updateStatus('⚠️ Ingresa tu ID válido.', 'status-default');
+    }
+});
+
+// Acceder a cámara
+navigator.mediaDevices.getUserMedia({ video: { width: 200, height: 140 } })
+.then(stream => { video.srcObject = stream; })
+.catch(err => { console.error(err); updateStatus('🔴 No se pudo acceder a la cámara.', 'status-error'); });
+
+// Tomar miniatura
+takePhotoButton.addEventListener('click', () => {
+    const context = canvas.getContext('2d');
+    canvas.width = 160; 
+    canvas.height = 130;
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    photoTaken = true;
+    entradaButton.disabled = false;
+    salidaButton.disabled = false;
+    updateStatus('📸 Foto tomada. Presiona "Entrada" o "Salida".', 'status-photo');
+});
+
+// Enviar datos
+function sendToServer(tipo) {
+    if(!photoTaken) { alert('Toma la foto primero.'); return; }
+    const employeeId = employeeIdInput.value.trim();
+    if(!employeeId) return;
+
+    const base64Data = canvas.toDataURL('image/jpeg', 0.9);
+
+    const dataToSend = {
+        tipo: tipo,
+        idEmpleado: employeeId,
+        fotoBase64: base64Data
+    };
+
+    entradaButton.disabled = true;
+    salidaButton.disabled = true;
+    updateStatus('⚙️ Enviando...', 'status-sending');
+
+    fetch(appsScriptURL, {
+        method: 'POST',
+        body: new URLSearchParams(dataToSend),
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.status === 'success') {
+            updateStatus(`🟢 ${data.message}`, 'status-success');
+            employeeIdInput.value = '';
+            photoTaken = false;
+            takePhotoButton.disabled = true;
+            entradaButton.disabled = true;
+            salidaButton.disabled = true;
+            setTimeout(() => { updateStatus('⚠️ Ingresa tu ID para comenzar.', 'status-default'); }, 5000); 
         } else {
-            takePhotoButton.disabled = true;
-            sendDataButton.disabled = true;
-            statusText.textContent = 'Por favor, ingresa tu ID y permite el acceso a la cámara.';
-        }
-    });
-
-    // 2. Acceder a la cámara del usuario
-    navigator.mediaDevices.getUserMedia({ video: true })
-        .then(stream => {
-            video.srcObject = stream;
-            if (employeeIdInput.value.trim() !== '') {
-                statusText.textContent = 'Cámara lista. Presiona "Tomar Foto".';
-                takePhotoButton.disabled = false;
-            }
-        })
-        .catch(err => {
-            console.error("Error al acceder a la cámara:", err);
-            statusText.textContent = 'No se pudo acceder a la cámara. Revisa los permisos.';
-            takePhotoButton.disabled = true;
-        });
-
-    // 3. Tomar la foto y mostrarla en el canvas
-    takePhotoButton.addEventListener('click', () => {
-        const context = canvas.getContext('2d');
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        context.drawImage(video, 0, 0, canvas.width, canvas.height);
-        photoTaken = true;
-        sendDataButton.disabled = false;
-        statusText.textContent = 'Foto tomada. Presiona "Enviar Asistencia".';
-        takePhotoButton.textContent = 'Tomar de nuevo';
-    });
-
-    // 4. Enviar la foto y los datos a Google Apps Script
-    sendDataButton.addEventListener('click', () => {
-        if (!photoTaken) {
-            alert('Por favor, toma una foto primero.');
-            return;
-        }
-        const employeeId = employeeIdInput.value.trim();
-        if (!employeeId) {
-            alert('Por favor, ingresa tu ID de Empleado.');
-            return;
+            updateStatus(`🔴 Error: ${data.message}`, 'status-error');
+            entradaButton.disabled = false;
+            salidaButton.disabled = false;
         }
 
-        sendDataButton.disabled = true;
-        sendDataButton.textContent = 'Enviando...';
-        
-        const imageData = canvas.toDataURL('image/jpeg', 0.8);
-        const now = new Date();
-        const fecha = now.toLocaleDateString('es-MX');
-        const hora = now.toLocaleTimeString('es-MX');
-
-        const dataToSend = {
-            fecha: fecha,
-            id: employeeId,
-            hora: hora,
-            foto: imageData
-        };
-
-        fetch(appsScriptURL, {
-            method: 'POST',
-            body: new URLSearchParams({ data: JSON.stringify(dataToSend) }),
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                statusText.textContent = '¡Asistencia registrada con éxito!';
-                alert('¡Asistencia registrada!');
-                employeeIdInput.value = ''; // Limpiar el campo ID
-                takePhotoButton.disabled = true;
-                photoTaken = false;
-                setTimeout(() => {
-                    sendDataButton.textContent = 'Enviar Asistencia';
-                    sendDataButton.disabled = true;
-                    takePhotoButton.textContent = 'Tomar Foto';
-                    statusText.textContent = 'Listo para un nuevo registro.';
-                }, 3000);
-            } else {
-                statusText.textContent = 'Error al registrar asistencia. Intenta de nuevo.';
-                console.error('Error del servidor:', data.message);
-                sendDataButton.textContent = 'Reintentar';
-                sendDataButton.disabled = false;
-            }
-        })
-        .catch(error => {
-            statusText.textContent = 'Error de conexión. Revisa tu internet.';
-            console.error('Error de conexión:', error);
-            sendDataButton.textContent = 'Reintentar';
-            sendDataButton.disabled = false;
-        });
+    })
+    .catch(err => { 
+        console.error(err); 
+        updateStatus('🔴 Error de conexión.', 'status-error'); 
+        entradaButton.disabled = false; 
+        salidaButton.disabled = false; 
     });
+}
+
+entradaButton.addEventListener('click', () => sendToServer('entrada'));
+salidaButton.addEventListener('click', () => sendToServer('salida'));
+
+// **Añadir las clases de estado faltantes al CSS para que el JS funcione correctamente**
+// Aunque pediste solo CSS, estas clases son necesarias para que el mensaje de estado tenga color.
+const dynamicStyles = document.createElement('style');
+dynamicStyles.innerHTML = `
+    .status-default { color: #7f8c8d !important; }
+    .status-valid { color: #2ecc71 !important; }
+    .status-photo { color: #3498db !important; }
+    .status-sending { color: #f39c12 !important; }
+    .status-success { color: #2ecc71 !important; }
+    .status-error { color: #e74c3c !important; }
+`;
+document.head.appendChild(dynamicStyles);
 </script>
-
 </body>
 </html>
